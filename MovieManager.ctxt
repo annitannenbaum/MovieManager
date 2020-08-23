@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.target=MovieManager
+comment0.text=\r\n\ A\ tool\ to\ manage\ different\ movies.\ Contains\ movie\ names\ as\ well\ as\ metadata.\r\n\ \r\n\ @author\ (Ihr\ Name)\ \r\n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\r\n
+comment1.params=
+comment1.target=MovieManager()
+comment1.text=\r\n\ Constructor\ for\ creating\ a\ new\ List\ of\ Movies\ and\ a\ Watchlist\r\n
+comment2.params=title
+comment2.target=void\ addMovie(java.lang.String)
+comment3.params=title
+comment3.target=void\ removeMovie(java.lang.String)
+comment4.params=title\ runtime\ description
+comment4.target=void\ addDetails(java.lang.String,\ int,\ java.lang.String)
+comment5.params=title\ actor\ role
+comment5.target=void\ addCastMember(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment6.params=title\ actor
+comment6.target=void\ removeCastMember(java.lang.String,\ java.lang.String)
+comment7.params=title
+comment7.target=void\ addToWatchlist(java.lang.String)
+comment8.params=title
+comment8.target=void\ removeFromWatchlist(java.lang.String)
+comment9.params=seen
+comment9.target=void\ toggleAllAlreadySeen(boolean)
+numComments=10

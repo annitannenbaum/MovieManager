@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.target=Movie
+comment0.text=\r\n\ A\ basic\ class\ that\ creates\ Objects\ of\ the\ type\ Movie.\r\n\ \r\n\ @author\ Anni\r\n\ @version\ 18.08.2020\r\n
+comment1.params=title
+comment1.target=Movie(java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ Objects\ of\ the\ class\ Movie.\r\n
+comment10.params=
+comment10.target=java.util.HashMap\ getCast()
+comment11.params=
+comment11.target=boolean\ getAlreadySeen()
+comment2.params=description
+comment2.target=void\ setDescription(java.lang.String)
+comment3.params=runtime
+comment3.target=void\ setRuntime(int)
+comment4.params=
+comment4.target=void\ setAlreadySeenT()
+comment5.params=
+comment5.target=void\ setAlreadySeenF()
+comment6.params=actor\ role
+comment6.target=void\ addCast(java.lang.String,\ java.lang.String)
+comment7.params=actor
+comment7.target=void\ removeCast(java.lang.String)
+comment8.params=
+comment8.target=java.lang.String\ getTitle()
+comment9.params=
+comment9.target=int\ getRuntime()
+numComments=12
