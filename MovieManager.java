@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 /**
  * A tool to manage different movies. Contains movie names as well as metadata.
  * 
@@ -26,7 +27,6 @@ public class MovieManager
         boolean found = false;
 
         for (Movie movie : movies) {
-            movie.getTitle();
             if (movie.getTitle().equals(title)) {
                 found = true;
             }
@@ -41,22 +41,21 @@ public class MovieManager
 
     public void removeMovie(String title)
     {
-        boolean found = false;
+        boolean searching = true;
 
         for (Movie movie : movies) {
             if (movie.getTitle().equals(title)) {
-                found = true;
+                searching = false;
+                movies.remove(title);
             }
         }
 
-        if (found) {
-            movies.remove(title);
-        } else {
+        if (searching) {
             System.out.println("No movie with that title found.");
         }
     }
     
-    public void addDetails(String title, int runtime, String description)
+    public void addDetails(String title, int runtime, String description, int releaseYear)
     {
         boolean searching = true; 
         for (Movie movie : movies) {
@@ -64,6 +63,7 @@ public class MovieManager
                 searching = false;
                 movie.setRuntime(runtime);
                 movie.setDescription(description);
+                movie.setReleaseYear(releaseYear);
             }
         }
         
@@ -103,6 +103,21 @@ public class MovieManager
             System.out.println("No movie with that title found.");
         }
     }
+    
+    // public void searchGenre(String genrename)
+    // {
+        // boolean searching = false;
+        // for (Movie movie : movies) {
+            // if (movie.getMetaData().containsValue(genrename)) {
+                // searching = false;
+              
+            // }
+        // }
+        
+        // if (searching) {
+            // System.out.println("No movie with that genre found.");
+        // }
+    // }
     
     public void addToWatchlist(String title)
     {
