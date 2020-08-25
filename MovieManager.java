@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 /**
  * A tool to manage different movies. Contains movie names as well as metadata.
  * 
@@ -12,6 +13,7 @@ public class MovieManager
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
     private ArrayList<Movie> movies;
     private ArrayList<Movie> watchlist;
+    private ArrayList<Set> actorsToCompare;
 
     /**
      * Constructor for creating a new List of Movies and a Watchlist
@@ -104,20 +106,21 @@ public class MovieManager
         }
     }
     
-    // public void searchGenre(String genrename)
-    // {
-        // boolean searching = false;
-        // for (Movie movie : movies) {
-            // if (movie.getMetaData().containsValue(genrename)) {
-                // searching = false;
-              
-            // }
-        // }
+    public void searchGenre(String genrename)
+    {
+        boolean searching = true;
+        for (Movie movie : movies) {
+            HashMap metadata = movie.getMetaData();
+            if (metadata.containsValue(genrename)) {
+                searching = false;
+                System.out.println(movie.getTitle());
+            }
+        }
         
-        // if (searching) {
-            // System.out.println("No movie with that genre found.");
-        // }
-    // }
+        if (searching) {
+            System.out.println("No movie with that genre found.");
+        }
+    }
     
     public void addToWatchlist(String title)
     {
@@ -155,6 +158,35 @@ public class MovieManager
             for (Movie movie : movies) {
                 movie.setAlreadySeenF();
             }
+        }
+    }
+    
+    public void printMostCommonActor()
+    {
+        actorsToCompare = new ArrayList<>();
+        
+        for (Movie movie : movies) { // retrieve the actors from the cast-HashMap for each movie and add the Sets to a List
+            HashMap actors = movie.getCast();
+            Set actorList = actors.keySet();
+            actorsToCompare.add(actorList);
+        }
+        // Turn the ArrayList into an Array for easy sorting
+        String[] actorArr = actorsToCompare.toArray(new String[actorsToCompare.size()]);
+        Arrays.sort(actorArr);
+        int mostCount = 0;
+        int lastCount = 0;
+        String mostCommon = "";
+        String last = "";
+        
+        for (String actor : actorArr) {
+            if (actor.equals(last)) {
+                lastCount++;
+            } else if (lastCount > mostCount) {
+                mostCount = lastCount;
+                mostCommon = last;
+            }
+            last = actor;
+            System.out.println("The actor starring in most movies is: " + last + ".");
         }
     }
 }

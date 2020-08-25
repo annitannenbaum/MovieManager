@@ -94,6 +94,8 @@ public class Movie
     {
         return cast;
     }
+    
+    //public 
 
     public boolean getAlreadySeen()
     {
