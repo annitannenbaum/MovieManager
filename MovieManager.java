@@ -90,6 +90,15 @@ public class MovieManager
         }
     }
     
+    public void printCast(String title)
+    {
+        for (Movie movie : movies) {
+            if (movie.getTitle().equals(title)) {
+                System.out.println(movie.getCast());
+            }
+        }
+    }
+    
     public void removeCastMember(String title, String actor)
     {
         boolean searching = true;

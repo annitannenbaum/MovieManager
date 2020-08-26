@@ -23,10 +23,10 @@ public class Movie
         this.title = title;
         runtime = 0;
         description = "";
-        HashMap<String, String> cast = new HashMap<String, String>();
+        cast = new HashMap();
         alreadySeen = false;
         releaseYear = 0;
-        HashMap<String, String> metadata = new HashMap<String, String>();
+        metadata = new HashMap();
     }
 
     public void setDescription(String description)
@@ -61,7 +61,7 @@ public class Movie
 
     // Adds an actor/role pair to the cast 
     public void addCast(String actor, String role)
-    {
+    { 
         cast.put(actor, role);
     }
     
@@ -94,8 +94,6 @@ public class Movie
     {
         return cast;
     }
-    
-    //public 
 
     public boolean getAlreadySeen()
     {
