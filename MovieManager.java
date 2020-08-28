@@ -187,15 +187,59 @@ public class MovieManager
         String mostCommon = "";
         String last = "";
         
+        
         for (String actor : actorArr) {
+            last = actor;
             if (actor.equals(last)) {
                 lastCount++;
             } else if (lastCount > mostCount) {
                 mostCount = lastCount;
                 mostCommon = last;
             }
-            last = actor;
-            System.out.println("The actor starring in most movies is: " + last + ".");
         }
+        System.out.println("The actor starring in most movies is: " + mostCommon + ".");
+    }
+    
+    public String[] storeTrimmedTitles()
+    {
+        String[] fittedTitles = new String[movies.size()];
+        for (Movie movie : movies) {
+            int len = movie.getTitleLength(movie.getTitle());
+            String fittedTitle = "";
+            int index = 0;
+            
+            if (len > 21){
+                fittedTitle = movie.trimTitle(movie.getTitle());
+            } else if (len < 21) {
+                fittedTitle = movie.padTitle(movie.getTitle());
+            }
+            
+            fittedTitles[index] = fittedTitle;
+            index++;
+        }
+        
+        return fittedTitles;
+    }
+    
+    
+    public String[][] splitFittedTitles(String[] fittedTitles)
+    {
+        int rest = fittedTitles.length % 3;
+        int chunks = fittedTitles.length / 3 + (rest > 0 ? 1 : 0);
+        String[][] arrays = new String[chunks][];
+        
+        for (int i = 0; i < (rest > 0 ? 2 : chunks); i++) {
+            arrays[i] = Arrays.copyOfRange(fittedTitles, i * 3, i * 6);
+        }
+        
+        if (rest > 0){
+            arrays[chunks - 1] = Arrays.copyOfRange(fittedTitles, (chunks - 1) * 3, (chunks - 1) *  3 + rest);
+        }
+        return arrays;
+    }
+    
+    public void printTiles()
+    {
+        
     }
 }

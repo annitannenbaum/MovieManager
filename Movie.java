@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.*;
 /**
  * A basic class that creates Objects of the type Movie.
  * 
@@ -98,5 +98,42 @@ public class Movie
     public boolean getAlreadySeen()
     {
         return alreadySeen;
+    }
+    
+    
+    public int getTitleLength(String title)
+    {
+        StringBuilder string = new StringBuilder(title);
+        int titleLength = string.length();
+        
+        return titleLength;
+    }
+    
+    public String trimTitle(String title)
+    {
+        StringBuilder string = new StringBuilder(title);
+        string.replace(18, 20, ".");
+        string.setLength(21);
+        
+        title = string.toString();
+        return title;
+    }
+    
+    // Dynamically appends padding to a Movie title
+    public String padTitle(String title)
+    {
+        StringBuilder string = new StringBuilder(title);
+        int diff = 21 - string.length();
+        String toAppend = " ";
+        int i = 0;
+        String result = "";
+        
+        while (i < diff) {
+            result = result + toAppend;
+            i++;
+        }
+        
+        title = string.toString();
+        return title;
     }
 }
