@@ -2,10 +2,10 @@
 dependency1.from=MovieManager
 dependency1.to=Movie
 dependency1.type=UsesDependency
-editor.fx.0.height=857
-editor.fx.0.width=1406
-editor.fx.0.x=456
-editor.fx.0.y=128
+editor.fx.0.height=1056
+editor.fx.0.width=1936
+editor.fx.0.x=-8
+editor.fx.0.y=-8
 objectbench.height=162
 objectbench.width=451
 package.divider.horizontal=0.599476439790576

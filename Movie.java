@@ -65,7 +65,7 @@ public class Movie
         cast.put(actor, role);
     }
     
-    public void addMetaData(String key, String value)
+    public void setMetaData(String key, String value)
     {
         metadata.put(key, value);
     }
@@ -73,6 +73,11 @@ public class Movie
     public HashMap getMetaData()
     {
         return metadata;
+    }
+    
+    public void removeMetaData(String key)
+    {
+        metadata.remove(key);
     }
     
     public void removeCast(String actor)
@@ -89,6 +94,11 @@ public class Movie
     {
         return runtime;
     }
+    
+    public String getDescription()
+    {
+        return description;
+    }
 
     public HashMap getCast()
     {
@@ -100,6 +110,10 @@ public class Movie
         return alreadySeen;
     }
     
+    public int getReleaseYear()
+    {
+        return releaseYear;
+    }
     
     public int getTitleLength(String title)
     {
