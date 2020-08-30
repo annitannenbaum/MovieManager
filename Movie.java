@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.HashMap;
 /**
  * A basic class that creates Objects of the type Movie.
  * 
@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class Movie
 {
-    private String title;
+    public String title;
     private String description;
     private int runtime;
     private int releaseYear;
@@ -65,7 +65,7 @@ public class Movie
         cast.put(actor, role);
     }
     
-    public void setMetaData(String key, String value)
+    public void addMetaData(String key, String value)
     {
         metadata.put(key, value);
     }
@@ -73,11 +73,6 @@ public class Movie
     public HashMap getMetaData()
     {
         return metadata;
-    }
-    
-    public void removeMetaData(String key)
-    {
-        metadata.remove(key);
     }
     
     public void removeCast(String actor)
@@ -94,11 +89,6 @@ public class Movie
     {
         return runtime;
     }
-    
-    public String getDescription()
-    {
-        return description;
-    }
 
     public HashMap getCast()
     {
@@ -108,46 +98,5 @@ public class Movie
     public boolean getAlreadySeen()
     {
         return alreadySeen;
-    }
-    
-    public int getReleaseYear()
-    {
-        return releaseYear;
-    }
-    
-    public int getTitleLength(String title)
-    {
-        StringBuilder string = new StringBuilder(title);
-        int titleLength = string.length();
-        
-        return titleLength;
-    }
-    
-    public String trimTitle(String title)
-    {
-        StringBuilder string = new StringBuilder(title);
-        string.replace(18, 20, ".");
-        string.setLength(21);
-        
-        title = string.toString();
-        return title;
-    }
-    
-    // Dynamically appends padding to a Movie title
-    public String padTitle(String title)
-    {
-        StringBuilder string = new StringBuilder(title);
-        int diff = 21 - string.length();
-        String toAppend = " ";
-        int i = 0;
-        String result = "";
-        
-        while (i < diff) {
-            result = result + toAppend;
-            i++;
-        }
-        
-        title = string.toString();
-        return title;
     }
 }
