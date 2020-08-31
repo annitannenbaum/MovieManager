@@ -5,8 +5,8 @@ import java.util.Set;
 /**
  * A tool to manage different movies. Contains movie names as well as metadata.
  * 
- * @author (Ihr Name) 
- * @version (eine Versionsnummer oder ein Datum)
+ * @author Anni 
+ * @version 31.08.2020
  */
 public class MovieManager
 {
@@ -89,15 +89,6 @@ public class MovieManager
             System.out.println("No movie with that title found.");
         }
     }
-
-    // public void printCast(String title)
-    // {
-    // for (Movie movie : movies) {
-    // if (movie.getTitle().equals(title)) {
-    // System.out.println(movie.getCast());
-    // }
-    // }
-    // }
 
     public void removeCastMember(String title, String actor)
     {
@@ -328,10 +319,11 @@ public class MovieManager
         // First, get all currently stored titles and trim them to size
 
         String[] fittedTitles = new String[movies.size()];
+        String fittedTitle = "";
+        int index = 0;
+        
         for (Movie movie : movies) {
             int len = movie.getTitleLength(movie.getTitle());
-            String fittedTitle = "";
-            int index = 0;
 
             if (len > 21){
                 fittedTitle = movie.trimTitle(movie.getTitle());
@@ -350,56 +342,63 @@ public class MovieManager
         String[][] arrays = new String[chunks][];
 
         for (int i = 0; i < (rest > 0 ? 2 : chunks); i++) {
-            arrays[i] = Arrays.copyOfRange(fittedTitles, i * 3, i * 6);
+            arrays[i] = Arrays.copyOfRange(fittedTitles, i * 3, i * 6); // Exception with copyOfRange: array building doesn't work correctly. 
         }
 
         if (rest > 0){
             arrays[chunks - 1] = Arrays.copyOfRange(fittedTitles, (chunks - 1) * 3, (chunks - 1) *  3 + rest); // makes an extra array with less than three titles
         }
-
+        
+        // quick test if array was built correctly
+        for (int i = 0; i < arrays.length; ++i) {
+            for(int j = 0; j < arrays[i].length; ++j) {
+                System.out.println(arrays[i][j]);
+            }
+        }
+        
         // Finally, print each row of threes accordingly
 
-        int i = 0;
+        // int i = 0;
 
-        if (rest == 0) { // in case of even rows of threes
-            for (String[] array : arrays) {
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " ||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-            }
-        } else if (rest == 2) { // in case of uneven rows with 2 left
-            String[] array = arrays[i]; 
-            while (i < (arrays.length-1)) {
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " ||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                i++;
-            }
-            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-            System.out.println("||                            ||                            ||");
-            System.out.println("|| " + array[0] + " || " + array[1] + " ||");
-            System.out.println("||                            ||                            ||");
-            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-        } else {
-            String[] array = arrays[i]; 
-            while (i < (arrays.length-1)) { // in case of uneven rows with one left
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " || ");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                i++;
-            }
-            System.out.println("||||||||||||||||||||||||||||||||");
-            System.out.println("||                            ||");
-            System.out.println("|| " + array[0] + " ||");
-            System.out.println("||                            ||");
-            System.out.println("||||||||||||||||||||||||||||||||");
-        }
+        // if (rest == 0) { // in case of even rows of threes
+            // for (i = 0; i < arrays.length; i++) {
+                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+                // System.out.println("||                            ||                            ||                            ||");
+                // System.out.println("|| " + arrays[i][0] + " || " + arrays[i][1] + " || " + arrays[i][2] + " ||");
+                // System.out.println("||                            ||                            ||                            ||");
+                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            // }
+        // } else if (rest == 2) { // in case of uneven rows with 2 left
+            // String[] array = arrays[i]; 
+            // while (i < (arrays.length-1)) {
+                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+                // System.out.println("||                            ||                            ||                            ||");
+                // System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " ||");
+                // System.out.println("||                            ||                            ||                            ||");
+                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+                // i++;
+            // }
+            // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            // System.out.println("||                            ||                            ||");
+            // System.out.println("|| " + array[0] + " || " + array[1] + " ||");
+            // System.out.println("||                            ||                            ||");
+            // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        // } else {
+            // String[] array = arrays[i]; 
+            // while (i < (arrays.length-1)) { // in case of uneven rows with one left
+                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+                // System.out.println("||                            ||                            ||                            ||");
+                // System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " || ");
+                // System.out.println("||                            ||                            ||                            ||");
+                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+                // i++;
+            // }
+            // System.out.println("||||||||||||||||||||||||||||||||");
+            // System.out.println("||                            ||");
+            // System.out.println("|| " + array[0] + " ||");
+            // System.out.println("||                            ||");
+            // System.out.println("||||||||||||||||||||||||||||||||");
+        // }
 
     }
 

@@ -3,7 +3,7 @@ import java.util.*;
  * A basic class that creates Objects of the type Movie.
  * 
  * @author Anni
- * @version 18.08.2020
+ * @version 31.08.2020
  */
 public class Movie
 {
@@ -126,8 +126,8 @@ public class Movie
     public String trimTitle(String title)
     {
         StringBuilder string = new StringBuilder(title);
-        string.replace(18, 20, ".");
         string.setLength(21);
+        string.replace(18, 22, "...");
         
         title = string.toString();
         return title;
@@ -147,7 +147,8 @@ public class Movie
             i++;
         }
         
-        title = string.toString();
+        
+        title = string.toString() + result;
         return title;
     }
 }

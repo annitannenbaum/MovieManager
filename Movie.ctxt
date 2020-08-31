@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Movie
-comment0.text=\r\n\ A\ basic\ class\ that\ creates\ Objects\ of\ the\ type\ Movie.\r\n\ \r\n\ @author\ Anni\r\n\ @version\ 18.08.2020\r\n
+comment0.text=\r\n\ A\ basic\ class\ that\ creates\ Objects\ of\ the\ type\ Movie.\r\n\ \r\n\ @author\ Anni\r\n\ @version\ 31.08.2020\r\n
 comment1.params=title
 comment1.target=Movie(java.lang.String)
 comment1.text=\r\n\ Constructor\ for\ Objects\ of\ the\ class\ Movie.\r\n
