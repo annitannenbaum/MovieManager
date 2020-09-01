@@ -13,14 +13,13 @@ comment12.target=void\ printMostCommonActor()
 comment13.params=
 comment13.target=double\ totalRuntime()
 comment14.params=
-comment14.target=void\ printTotalRuntime()
+comment14.target=int\ numberOfMovies()
 comment15.params=
-comment15.target=int\ numberOfMovies()
+comment15.target=double\ averageRuntime()
 comment16.params=
-comment16.target=void\ averageRuntime()
+comment16.target=void\ movieRecommendations()
 comment17.params=title
 comment17.target=void\ seeMovie(java.lang.String)
-comment17.text=public\ void\ movieRecommendations()\ {\r\n\ \ \ \ int\ i\ \=\ 0;\r\n\ \ \ \ String\ total\ \=\ "";\r\n\ \ \ \ while\ (i<3)\ {\r\n\ \ \ \ total\ \=\ total\ +\ (watchlist.get\ (new\ Random\ ().nextString()));\ \ \r\n\ \ \ \ i++;\r\n\ \ \ \ }\r\n\ \ \ \ System.out.println(total);\r\n}\r\n
 comment2.params=title
 comment2.target=void\ addMovie(java.lang.String)
 comment3.params=title

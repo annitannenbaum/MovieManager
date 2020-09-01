@@ -147,7 +147,6 @@ public class MovieManager
 
         if (found) {
             watchlist.add(title);
-            //das doppelte Erzeugen derselben Informationen in zwei Hashmaps ist vermutlich nicht ganz korrekt?
         }
     }
 
@@ -169,12 +168,15 @@ public class MovieManager
         }
     }
 
+    //doppelte Analage durch diese Methode verhindert
     public void toggleAllAlreadySeen(boolean seen)
     {
         if (seen) {
             for (Movie movie : movies) {
                 movie.setAlreadySeenT();
-                watchlist.add(movie.getTitle());                
+                if (false==watchlist.contains(movie.getTitle())) {
+                    watchlist.add(movie.getTitle());    
+                }
             }
         } else {
             for (Movie movie : movies) {
@@ -215,23 +217,15 @@ public class MovieManager
 
     //Eine weitere Methode soll die Spieldauer aller Filme addieren (mit externem Methodenaufruf)
     //Umzug in die Klasse Movie vornehmen
-    private double totalRuntime () {
+
+    public double totalRuntime () {
         double total = 0.;
         for (Movie movie : movies) {
             total = total + movie.getRuntime();
         }
         return total;
     }
-
-    //Eine weitere Methode soll die Spieldauer aller Filme addieren ( interner Methodenaufruf) und anschließend ausgeben
-
-    public void printTotalRuntime () {
-        System.out.println("Sum of runtime of all movies is "+totalRuntime()+ " minutes");
-        //kann an sich raus, da Konsolenausgabe nicht erwünscht
-    }
-
     //Methode um die Anzahl an Filmen in der Array Liste zu erkennen
-    //Umzug in die Klasse Movie vornehmen
     private int numberOfMovies () {
         int total = 0;
         for (Movie movie : movies) {
@@ -242,40 +236,33 @@ public class MovieManager
 
     //Methode um die durchschnittl. Spieldauer aller Filme zu errechnen
 
-    public void averageRuntime () {
+    public double averageRuntime () {
         double total = 0.;
         for (Movie movie : movies) {
             total = total + movie.getRuntime();
         }
         total = total / this.numberOfMovies();
-        System.out.println("The average runtime of the movie library is "+total);
-        //Konsolenausgabe entfernen durch return
+        return total;
     }
 
-    //Methode um Größe der Watchlist zu erhalten
-       private int getWatchlistSize () {
-        return watchlist.size();
-    }
-    
-    //Methode um eine Zufällige Zahl aus der Watchlistgrößer zu erhalten
-    private String randomWatchlistNumber () {
-        int index = new Random().nextInt(watchlist.size);
-        return watchlist.get(index);
-    }
-    
     //methode um die Vorschlagsfunktion aufzurufen
-    public String movieRecommendations() {
+    public void movieRecommendations() {
         int i = 0;
         String total = "";
-        while (i<3) {
-            //total = total + randomWatchlistNumber; 
-            i++;
+        String movie = "";
+        if (watchlist.size()>2) { //Damit keine Endlosschleife erzeugt wird.
+            while (i<3) {
+                movie = watchlist.get(new Random().nextInt(watchlist.size()));
+                if (false==total.contains(movie)) {
+                    total = total +" "+ movie; 
+                    i++;
+                }
+            }
+            System.out.println(total);
+        } else {
+            System.out.println ("There are not enough movies in your watchlist");
         }
-        System.out.println(total);
-
-        
     }
-
     // Methode um einen Film zu sehen und, dass dieser von der Watchlist entfernt wird
     public void seeMovie (String title) {
         for (Movie movie : movies) {
