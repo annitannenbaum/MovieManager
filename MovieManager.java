@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Random;
 /**
  * A tool to manage different movies. Contains movie names as well as metadata.
  * 
@@ -12,8 +13,9 @@ public class MovieManager
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
     private ArrayList<Movie> movies;
-    private ArrayList<Movie> watchlist;
+    private ArrayList<String> watchlist;
     private ArrayList<Set> actorsToCompare;
+    private Random rand;
 
     /**
      * Constructor for creating a new List of Movies and a Watchlist
@@ -22,6 +24,30 @@ public class MovieManager
     {
         movies = new ArrayList<>();
         watchlist = new ArrayList<>();
+        rand = new Random();
+
+    }
+
+    public void addWatchlistTest() {
+        watchlist.add(new String("Snowpiercer"));
+        watchlist.add(new String("LotR"));
+        watchlist.add(new String("Spiderman"));
+        watchlist.add(new String("Spiderman 2"));
+        watchlist.add(new String("BlueJ Test Movie"));
+        watchlist.add(new String("LotR - 2"));
+        watchlist.add(new String("Batman v Superman"));
+        watchlist.add(new String("Movie"));
+    }
+
+    public void addMovieTest() {
+        movies.add(new Movie("Snowpiercer"));
+        movies.add(new Movie("LotR"));
+        movies.add(new Movie("Spiderman"));
+        movies.add(new Movie("Spiderman 2"));
+        movies.add(new Movie("BlueJ Test Movie"));
+        movies.add(new Movie("LotR - 2"));
+        movies.add(new Movie("Batman v Superman"));
+        movies.add(new Movie("Movie"));
     }
 
     public void addMovie(String title)
@@ -90,14 +116,39 @@ public class MovieManager
         }
     }
 
-    // public void printCast(String title)
-    // {
-    // for (Movie movie : movies) {
-    // if (movie.getTitle().equals(title)) {
-    // System.out.println(movie.getCast());
-    // }
-    // }
-    // }
+    public void addMetadata (String title, String key, String value) {
+        boolean searching = true; 
+        for (Movie movie : movies) {
+            if (movie.getTitle().equals(title)) {
+                searching = false;
+                movie.addMetaData(key, value);
+
+            }
+        }
+
+        if (searching) {
+            System.out.println("No movie with that title found.");
+        }
+    }
+
+    public void showMetadata(String title) {
+        for(Movie movie : movies) {
+            if (movie.getTitle().equals(title)) {
+
+                System.out.println(movie.getMetaData());
+
+            }   
+        }
+    }
+
+    public void printCast(String title)
+    {
+        for (Movie movie : movies) {
+            if (movie.getTitle().equals(title)) {
+                System.out.println(movie.getCast());
+            }
+        }
+    }
 
     public void removeCastMember(String title, String actor)
     {
@@ -114,37 +165,30 @@ public class MovieManager
             System.out.println("No movie with that title found.");
         }
     }
-
-    public void addMetaData(String title, String key, String value)
+public void searchMovie(String title)
     {
-        boolean searching = true;
 
         for (Movie movie : movies) {
-            if (movie.getTitle().equals(title)) {
-                searching = false;
-                movie.setMetaData(key, value);
+            String t = movie.getTitle();
+            if (t.contains(title)) {
+
+                System.out.println(movie.getTitle());
             }
         }
 
-        if (searching) {
-            System.out.println("No movie with that title found.");
-        }
     }
-
-    public void removeMetaData(String title, String key)
+    public void searchCastMember(String actor)
     {
-        boolean searching = true;
 
+        System.out.println(actor + ":");
         for (Movie movie : movies) {
-            if (movie.getTitle().equals(title)) {
-                searching = false;
-                movie.removeMetaData(key);
+            HashMap cast = movie.getCast();
+            if (cast.containsKey(actor)) {
+
+                System.out.println(movie.getTitle());
             }
         }
 
-        if (searching) {
-            System.out.println("No movie with that title found.");
-        }
     }
 
     public void searchGenre(String genrename)
@@ -152,9 +196,11 @@ public class MovieManager
         boolean searching = true;
         for (Movie movie : movies) {
             HashMap metadata = movie.getMetaData();
-            if (metadata.containsValue(genrename)) {
-                searching = false;
-                System.out.println(movie.getTitle());
+            if (metadata.containsKey("Genre")){
+                if (metadata.containsValue(genrename)) {
+                    searching = false;
+                    System.out.println(movie.getTitle());
+                }
             }
         }
 
@@ -163,6 +209,75 @@ public class MovieManager
         }
     }
 
+    public void empfohleneFilme()
+    {
+        int index = rand.nextInt(watchlist.size());
+        String suggA = watchlist.get(index);
+        System.out.println("Dir wird der Film " + suggA + " empfohlen!");
+
+        int index2 = rand.nextInt(watchlist.size());
+        if (index2 == index) { index2 ++;}
+        if (index2 > watchlist.size()) {
+            index2 = index2 - 2;}
+        String suggB = watchlist.get(index2);
+        System.out.println("Dir wird der Film " + suggB + " empfohlen!");
+
+        int index3 = rand.nextInt(watchlist.size());
+        if (index3 == index) { index3 = index3 + 2;}
+        if (index3 == index2) {index3++;}
+        if (index3 > watchlist.size()) {index3 = index3 -3;}
+        String suggC = watchlist.get(index3);
+        System.out.println("Dir wird der Film " + suggC + " empfohlen!");
+    }
+
+    public void searchUnseenMovies()
+    {
+
+        for (Movie movie : movies) {
+            boolean seen = movie.getAlreadySeen();
+            if (seen == false) {
+
+                System.out.println(movie.getTitle());
+            }
+        }
+
+    }
+
+    public void searchWatchlistMovie(String title)
+    {
+
+        for (String movie : watchlist) {
+            if (movie.contains(title)){
+                System.out.println(movie);   
+            }
+
+        }
+
+    }
+
+    public void  searchMinLenghtMovie (int lenght)
+    { 
+
+        for (Movie movie : movies) {
+            int runtime = movie.getRuntime();
+            if(runtime >= lenght)
+            { 
+                System.out.println(movie.getTitle());
+            }
+        }
+
+    }
+
+    public void  searchMovieReleasePeriod (int start, int end)
+    { 
+        for (Movie movie : movies) {
+            int release = movie.getReleaseYear();
+            if(release >= start &  release <= end){
+                System.out.println(movie.getTitle());
+            }
+        }
+
+    }
     public void addToWatchlist(String title)
     {
         boolean found = false;
@@ -174,28 +289,10 @@ public class MovieManager
         }
 
         if (found) {
-            watchlist.add(new Movie(title));
-        } else {
-            System.out.println("Movie was either not found or already watched.");
+            watchlist.add(new String(title));
         }
     }
 
-    public void removeFromWatchlist(String title)
-    {
-        boolean searching = true;
-        for (Movie movie : watchlist) {
-            if (movie.getTitle().equals(title)) {
-                searching = false;
-                watchlist.remove(title);
-            }
-        }
-
-        if (searching) {
-            System.out.println("No title found!");
-        }
-    }
-    
-    // Set to true if you want to set every movie to already seen, set to false if you want to set them to unseen.
     public void toggleAllAlreadySeen(boolean seen)
     {
         if (seen) {
@@ -227,180 +324,14 @@ public class MovieManager
         String last = "";
 
         for (String actor : actorArr) {
-            last = actor;
             if (actor.equals(last)) {
                 lastCount++;
             } else if (lastCount > mostCount) {
                 mostCount = lastCount;
                 mostCommon = last;
             }
-        }
-        System.out.println("The actor starring in most movies is: " + mostCommon + ".");
-    }
-
-    public void printTotalMoviesWithRuntime()
-    {
-        int runtimeCount = 0;
-
-        for (Movie movie : movies) {
-            runtimeCount = runtimeCount + movie.getRuntime();
-        }
-
-        System.out.println("Total number of movies: " + movies.size());
-        System.out.println("Total runtime: " + runtimeCount);
-    }
-
-    public void printWatchedWithRuntime()
-    {
-        int runtimeCount = 0;
-        int movieCount = 0;
-
-        for (Movie movie : movies) {
-            if (movie.getAlreadySeen()) {
-                runtimeCount = runtimeCount + movie.getRuntime();
-                movieCount++;
-            }
-        }
-
-        System.out.println("Total number of unwatched movies: " + movieCount);
-        System.out.println("Total runtime of unwatched movies: " + runtimeCount);
-    }
-
-    public void printUnwatchedWithRuntime()
-    {
-        int runtimeCount = 0;
-        int movieCount = 0;
-
-        for (Movie movie : movies) {
-            if (movie.getAlreadySeen() == false) {
-                runtimeCount = runtimeCount + movie.getRuntime();
-                movieCount++;
-            }
-        }
-
-        System.out.println("Total number of unwatched movies: " + movieCount);
-        System.out.println("Total runtime of unwatched movies: " + runtimeCount);
-    }
-    
-    public void printWatchlistWithRuntime()
-    {
-        int runtimeCount = 0;
-
-        for (Movie movie : watchlist) {
-            runtimeCount = runtimeCount + movie.getRuntime();
-        }
-
-        System.out.println("Total number of movies: " + watchlist.size());
-        System.out.println("Total runtime: " + runtimeCount);
-    }
-
-    public void printMovieList()
-    {
-        System.out.println("Here's a list of all movies currently in this collection:");
-        for (Movie movie : movies)
-        {
-            System.out.println("Title: " + movie.getTitle());
+            last = actor;
+            System.out.println("The actor starring in most movies is: " + last + ".");
         }
     }
-
-    public void printDetails(String title)
-    {
-        boolean searching = true;
-
-        for (Movie movie : movies) {
-            if (movie.getTitle().equals(title)) {
-                System.out.println("Title: " + movie.getTitle());
-                System.out.println("Description: " + movie.getDescription());
-                System.out.println("Runtime: " + movie.getRuntime());
-                System.out.println("Cast: " + movie.getCast());
-                System.out.println("MetaData: " + movie.getMetaData());
-                searching = false;
-            }
-        }
-        
-        if (searching) {
-            System.out.println("No movie with that title found.");
-        }
-    }
-
-    public void printGridView()
-    {
-        // First, get all currently stored titles and trim them to size
-
-        String[] fittedTitles = new String[movies.size()];
-        for (Movie movie : movies) {
-            int len = movie.getTitleLength(movie.getTitle());
-            String fittedTitle = "";
-            int index = 0;
-
-            if (len > 21){
-                fittedTitle = movie.trimTitle(movie.getTitle());
-            } else if (len < 21) {
-                fittedTitle = movie.padTitle(movie.getTitle());
-            }
-
-            fittedTitles[index] = fittedTitle + " (" + movie.getReleaseYear() + ")"; // add the year to the array for easier printing
-            index++;
-        }
-
-        // Next, create an array for each row of threes to be printed
-
-        int rest = fittedTitles.length % 3; // determine whether there is an array with less than 3 columns
-        int chunks = fittedTitles.length / 3 + (rest > 0 ? 1 : 0); //adds an extra array if there is a rest
-        String[][] arrays = new String[chunks][];
-
-        for (int i = 0; i < (rest > 0 ? 2 : chunks); i++) {
-            arrays[i] = Arrays.copyOfRange(fittedTitles, i * 3, i * 6);
-        }
-
-        if (rest > 0){
-            arrays[chunks - 1] = Arrays.copyOfRange(fittedTitles, (chunks - 1) * 3, (chunks - 1) *  3 + rest); // makes an extra array with less than three titles
-        }
-
-        // Finally, print each row of threes accordingly
-
-        int i = 0;
-
-        if (rest == 0) { // in case of even rows of threes
-            for (String[] array : arrays) {
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " ||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-            }
-        } else if (rest == 2) { // in case of uneven rows with 2 left
-            String[] array = arrays[i]; 
-            while (i < (arrays.length-1)) {
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " ||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                i++;
-            }
-            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-            System.out.println("||                            ||                            ||");
-            System.out.println("|| " + array[0] + " || " + array[1] + " ||");
-            System.out.println("||                            ||                            ||");
-            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-        } else {
-            String[] array = arrays[i]; 
-            while (i < (arrays.length-1)) { // in case of uneven rows with one left
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " || ");
-                System.out.println("||                            ||                            ||                            ||");
-                System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                i++;
-            }
-            System.out.println("||||||||||||||||||||||||||||||||");
-            System.out.println("||                            ||");
-            System.out.println("|| " + array[0] + " ||");
-            System.out.println("||                            ||");
-            System.out.println("||||||||||||||||||||||||||||||||");
-        }
-
-    }
-
 }

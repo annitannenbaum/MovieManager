@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.ArrayList;
 /**
  * A basic class that creates Objects of the type Movie.
  * 
@@ -42,44 +43,39 @@ public class Movie
     public void setAlreadySeenT()
     {
         if (alreadySeen == false) {
-           alreadySeen = true;
+            alreadySeen = true;
         }
+
     }
-    
+
     public void setAlreadySeenF()
     {
         if (alreadySeen) {
             alreadySeen = false;
         }
     }
-    
+
     public void setReleaseYear(int releaseYear)
     {
         this.releaseYear = releaseYear;
     }
-    
 
     // Adds an actor/role pair to the cast 
     public void addCast(String actor, String role)
     { 
         cast.put(actor, role);
     }
-    
-    public void setMetaData(String key, String value)
+
+    public void addMetaData(String key, String value)
     {
         metadata.put(key, value);
     }
-    
+
     public HashMap getMetaData()
     {
         return metadata;
     }
-    
-    public void removeMetaData(String key)
-    {
-        metadata.remove(key);
-    }
-    
+
     public void removeCast(String actor)
     {
         cast.remove(actor);
@@ -94,60 +90,19 @@ public class Movie
     {
         return runtime;
     }
-    
-    public String getDescription()
-    {
-        return description;
-    }
 
     public HashMap getCast()
     {
         return cast;
     }
 
-    public boolean getAlreadySeen()
-    {
-        return alreadySeen;
-    }
-    
     public int getReleaseYear()
     {
         return releaseYear;
     }
-    
-    public int getTitleLength(String title)
+
+    public boolean getAlreadySeen()
     {
-        StringBuilder string = new StringBuilder(title);
-        int titleLength = string.length();
-        
-        return titleLength;
-    }
-    
-    public String trimTitle(String title)
-    {
-        StringBuilder string = new StringBuilder(title);
-        string.replace(18, 20, ".");
-        string.setLength(21);
-        
-        title = string.toString();
-        return title;
-    }
-    
-    // Dynamically appends padding to a Movie title
-    public String padTitle(String title)
-    {
-        StringBuilder string = new StringBuilder(title);
-        int diff = 21 - string.length();
-        String toAppend = " ";
-        int i = 0;
-        String result = "";
-        
-        while (i < diff) {
-            result = result + toAppend;
-            i++;
-        }
-        
-        title = string.toString();
-        return title;
+        return alreadySeen;
     }
 }
