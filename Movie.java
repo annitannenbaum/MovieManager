@@ -15,6 +15,7 @@ public class Movie
     private HashMap cast;
     private boolean alreadySeen;
     private HashMap metadata;
+    private boolean search;
 
     /**
      * Constructor for Objects of the class Movie.
@@ -105,4 +106,5 @@ public class Movie
     {
         return alreadySeen;
     }
+    
 }

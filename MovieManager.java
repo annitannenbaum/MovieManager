@@ -15,7 +15,7 @@ public class MovieManager
     private ArrayList<Movie> movies;
     private ArrayList<String> watchlist;
     private ArrayList<Set> actorsToCompare;
-    private Random rand;
+    
 
     /**
      * Constructor for creating a new List of Movies and a Watchlist
@@ -24,7 +24,7 @@ public class MovieManager
     {
         movies = new ArrayList<>();
         watchlist = new ArrayList<>();
-        rand = new Random();
+        
 
     }
 
@@ -165,119 +165,142 @@ public class MovieManager
             System.out.println("No movie with that title found.");
         }
     }
-public void searchMovie(String title)
+
+
+    public ArrayList searchMovie(String title)
     {
-
+        ArrayList<String> search;
+        search = new ArrayList<>();
         for (Movie movie : movies) {
-            String t = movie.getTitle();
-            if (t.contains(title)) {
+            if (movie.getTitle().contains(title)) {
 
-                System.out.println(movie.getTitle());
+                search.add(new String(movie.getTitle()));
             }
         }
-
+        return search;
     }
-    public void searchCastMember(String actor)
-    {
 
-        System.out.println(actor + ":");
+    public void searchTest()
+    {ArrayList<String> test;
+        test = new ArrayList<>();
+        test = suggestedMovies();
+        for(String title : test){ 
+            System.out.println(title);
+        }
+    }
+
+    public ArrayList searchCastMember(String actor)
+    {
+        ArrayList<String> search;
+        search = new ArrayList<>();
         for (Movie movie : movies) {
             HashMap cast = movie.getCast();
             if (cast.containsKey(actor)) {
 
-                System.out.println(movie.getTitle());
+                search.add(new String(movie.getTitle()));
             }
         }
-
+        return search;
     }
 
-    public void searchGenre(String genrename)
+    public ArrayList searchGenre(String genrename)
     {
-        boolean searching = true;
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        
         for (Movie movie : movies) {
             HashMap metadata = movie.getMetaData();
             if (metadata.containsKey("Genre")){
                 if (metadata.containsValue(genrename)) {
-                    searching = false;
-                    System.out.println(movie.getTitle());
+                    
+                    search.add(new String(movie.getTitle()));
                 }
             }
         }
 
-        if (searching) {
-            System.out.println("No movie with that genre found.");
-        }
+       return search;
     }
 
-    public void empfohleneFilme()
-    {
+    public ArrayList suggestedMovies()
+    {   Random rand;
+        rand = new Random();
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        
         int index = rand.nextInt(watchlist.size());
         String suggA = watchlist.get(index);
-        System.out.println("Dir wird der Film " + suggA + " empfohlen!");
+        search.add(new String(suggA));
 
         int index2 = rand.nextInt(watchlist.size());
         if (index2 == index) { index2 ++;}
         if (index2 > watchlist.size()) {
             index2 = index2 - 2;}
         String suggB = watchlist.get(index2);
-        System.out.println("Dir wird der Film " + suggB + " empfohlen!");
+        search.add(new String(suggB));
 
         int index3 = rand.nextInt(watchlist.size());
         if (index3 == index) { index3 = index3 + 2;}
         if (index3 == index2) {index3++;}
         if (index3 > watchlist.size()) {index3 = index3 -3;}
         String suggC = watchlist.get(index3);
-        System.out.println("Dir wird der Film " + suggC + " empfohlen!");
+        search.add(new String(suggC));
+        
+        return search;
     }
 
-    public void searchUnseenMovies()
+    public ArrayList searchUnseenMovies()
     {
-
+        ArrayList<String> search;
+        search = new ArrayList<>();
         for (Movie movie : movies) {
             boolean seen = movie.getAlreadySeen();
             if (seen == false) {
 
-                System.out.println(movie.getTitle());
+                search.add(new String(movie.getTitle()));
             }
         }
-
+        return search;
     }
 
-    public void searchWatchlistMovie(String title)
+    public ArrayList searchWatchlistMovie(String title)
     {
-
+        ArrayList<String> search;
+        search = new ArrayList<>();
         for (String movie : watchlist) {
             if (movie.contains(title)){
-                System.out.println(movie);   
+                search.add(new String(movie));   
             }
 
         }
-
+        return search;
     }
 
-    public void  searchMinLenghtMovie (int lenght)
+    public ArrayList  searchMinLenghtMovie (int lenght)
     { 
-
+        ArrayList<String> search;
+        search = new ArrayList<>();
         for (Movie movie : movies) {
             int runtime = movie.getRuntime();
             if(runtime >= lenght)
             { 
-                System.out.println(movie.getTitle());
+                search.add(new String(movie.getTitle()));
             }
         }
-
+        return search;
     }
 
-    public void  searchMovieReleasePeriod (int start, int end)
-    { 
+    public ArrayList  searchMovieReleasePeriod (int start, int end)
+    {   ArrayList<String> search;
+        search = new ArrayList<>();
         for (Movie movie : movies) {
             int release = movie.getReleaseYear();
             if(release >= start &  release <= end){
-                System.out.println(movie.getTitle());
+                search.add(new String(movie.getTitle()));
             }
         }
-
+        return search;
     }
+
     public void addToWatchlist(String title)
     {
         boolean found = false;
