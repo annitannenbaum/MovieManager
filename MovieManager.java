@@ -61,7 +61,7 @@ public class MovieManager
         }
     }
 
-    public void addDetails(String title, int runtime, String description, int releaseYear)
+    public void addDetails(String title, int runtime, String description, int yearOfRelease)
     {
         boolean searching = true; 
         for (Movie movie : movies) {
@@ -69,7 +69,7 @@ public class MovieManager
                 searching = false;
                 movie.setRuntime(runtime);
                 movie.setDescription(description);
-                movie.setReleaseYear(releaseYear);
+                movie.setYearOfRelease(yearOfRelease);
             }
         }
 
@@ -372,7 +372,7 @@ public class MovieManager
     {   ArrayList<String> search;
         search = new ArrayList<>();
         for (Movie movie : movies) {
-            int release = movie.getReleaseYear();
+            int release = movie.getYearOfRelease();
             if(release >= start &  release <= end){
                 search.add(new String(movie.getTitle()));
             }
@@ -454,6 +454,7 @@ public class MovieManager
                 System.out.println("Title: " + movie.getTitle());
                 System.out.println("Description: " + movie.getDescription());
                 System.out.println("Runtime: " + movie.getRuntime());
+                System.out.println("Year of Release: " + movie.getYearOfRelease());
                 System.out.println("Cast: " + movie.getCast());
                 System.out.println("MetaData: " + movie.getMetaData());
                 searching = false;
@@ -482,7 +483,7 @@ public class MovieManager
                 fittedTitle = movie.padTitle(movie.getTitle());
             }
 
-            fittedTitles[index] = fittedTitle + " (" + movie.getReleaseYear() + ")"; // add the year to the array for easier printing
+            fittedTitles[index] = fittedTitle + " (" + movie.getYearOfRelease() + ")"; // add the year to the array for easier printing
             index++;
         }
 

@@ -10,7 +10,7 @@ public class Movie
     private String title;
     private String description;
     private int runtime;
-    private int releaseYear;
+    private int yearOfRelease;
     private HashMap cast;
     private boolean alreadySeen;
     private HashMap metadata;
@@ -25,7 +25,7 @@ public class Movie
         description = "";
         cast = new HashMap();
         alreadySeen = false;
-        releaseYear = 0;
+        yearOfRelease = 0;
         metadata = new HashMap();
     }
 
@@ -53,9 +53,9 @@ public class Movie
         }
     }
     
-    public void setReleaseYear(int releaseYear)
+    public void setYearOfRelease(int yearOfRelease)
     {
-        this.releaseYear = releaseYear;
+        this.yearOfRelease = yearOfRelease;
     }
     
 
@@ -110,9 +110,9 @@ public class Movie
         return alreadySeen;
     }
     
-    public int getReleaseYear()
+    public int getYearOfRelease()
     {
-        return releaseYear;
+        return yearOfRelease;
     }
     
     public int getTitleLength(String title)
