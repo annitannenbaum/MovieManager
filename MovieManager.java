@@ -8,12 +8,12 @@ import java.util.Iterator;
 /**
  * A tool to manage different movies. Contains movie names as well as metadata.
  * 
- * @author Anni 
- * @version 31.08.2020
+ * @author Anna Hoege, Bendix Falke, Paul Carpus
+ * @version 06.09.2020
  */
+
 public class MovieManager
 {
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
     private ArrayList<Movie> movies;
     private ArrayList<Movie> watchlist;
     private ArrayList<Set> actorsToCompare;
@@ -47,16 +47,17 @@ public class MovieManager
 
     public void removeMovie(String title)
     {
+        Iterator<Movie> iterator = movies.iterator();
         boolean searching = true;
 
-        for (Movie movie : movies) {
-            if (movie.getTitle().equals(title)) {
+        if (searching == true) {
+            while (iterator.hasNext()) {
+                Movie movie = iterator.next();
+                movies.remove(movie);
+                this.removeFromWatchlist(title);
                 searching = false;
-                movies.remove(title);
             }
-        }
-
-        if (searching) {
+        } else {
             System.out.println("No movie with that title found.");
         }
     }
@@ -64,6 +65,7 @@ public class MovieManager
     public void addDetails(String title, int runtime, String description, int yearOfRelease)
     {
         boolean searching = true; 
+
         for (Movie movie : movies) {
             if (movie.getTitle().equals(title)) {
                 searching = false;
@@ -173,9 +175,10 @@ public class MovieManager
         }
     
     }
-    
+
     // Set to true if you want to set every movie to already seen, set to false if you want to set them to unseen.
-    public void toggleAllAlreadySeen(boolean seen)
+
+    public void toggleAllAlreadySeen(boolean seen) 
     {
         if (seen) {
             for (Movie movie : movies) {
@@ -198,7 +201,9 @@ public class MovieManager
             Set actorList = actors.keySet();
             actorsToCompare.add(actorList);
         }
+
         // Turn the ArrayList into an Array for easy sorting
+
         String[] actorArr = actorsToCompare.toArray(new String[actorsToCompare.size()]);
         Arrays.sort(actorArr);
         int mostCount = 0;
@@ -217,29 +222,28 @@ public class MovieManager
         }
         System.out.println("The actor starring in most movies is: " + mostCommon + ".");
     }
-   
 
     public double totalRuntime () {
         double total = 0.;
+
         for (Movie movie : movies) {
             total = total + movie.getRuntime();
         }
         return total;
     }
-    
-    
+
     private int numberOfMovies () {
         int total = 0;
+
         for (Movie movie : movies) {
             total++ ;
         }
         return total;
     }
 
-    
-
     public double averageRuntime () {
         double total = 0.;
+
         for (Movie movie : movies) {
             total = total + movie.getRuntime();
         }
@@ -247,10 +251,10 @@ public class MovieManager
         return total;
     }
 
-    
     public String movieRecommendations() {
         int i = 0;
         String total = "";
+
         if (watchlist.size()>2) { //Damit keine Endlosschleife erzeugt wird.
             while (i<3) {
                 Movie movie = watchlist.get(new Random().nextInt(watchlist.size()));
@@ -262,10 +266,10 @@ public class MovieManager
         } else {
             System.out.println ("There are not enough movies in your watchlist");
         }
-        
+
         return total;
     }
-    
+
     public void seeMovie (String title) {
         for (Movie movie : movies) {
             if (movie.getTitle().equals(title)) {
@@ -281,11 +285,10 @@ public class MovieManager
         }
     }
 
-    
-    public ArrayList searchCastMember(String actor)
-    {
+    public ArrayList searchCastMember(String actor) {
         ArrayList<String> search;
         search = new ArrayList<>();
+
         for (Movie movie : movies) {
             HashMap cast = movie.getCast();
             if (cast.containsKey(actor)) {
@@ -296,28 +299,27 @@ public class MovieManager
         return search;
     }
 
-    public ArrayList searchGenre(String genrename)
-    {
+    public ArrayList searchGenre(String genrename) {
         ArrayList<String> search;
         search = new ArrayList<>();
-        
+
         for (Movie movie : movies) {
             HashMap metadata = movie.getMetaData();
+
             if (metadata.containsKey("Genre")){
                 if (metadata.containsValue(genrename)) {
-                    
+
                     search.add(new String(movie.getTitle()));
                 }
             }
         }
-
-       return search;
+        return search;
     }
-    
-    public ArrayList searchMovie(String title)
-    {
+
+    public ArrayList searchMovie(String title) {
         ArrayList<String> search;
         search = new ArrayList<>();
+
         for (Movie movie : movies) {
             if (movie.getTitle().contains(title)) {
 
@@ -326,13 +328,14 @@ public class MovieManager
         }
         return search;
     }
-    
-        public ArrayList searchUnseenMovies()
-    {
+
+    public ArrayList searchUnseenMovies() {
         ArrayList<String> search;
         search = new ArrayList<>();
+
         for (Movie movie : movies) {
             boolean seen = movie.getAlreadySeen();
+
             if (seen == false) {
 
                 search.add(new String(movie.getTitle()));
@@ -341,10 +344,10 @@ public class MovieManager
         return search;
     }
 
-    public ArrayList searchWatchlistMovie(String title)
-    {
+    public ArrayList searchWatchlistMovie(String title) {
         ArrayList<String> search;
         search = new ArrayList<>();
+
         for (Movie movie : watchlist) {
             if (movie.getTitle().contains(title)){
                 search.add(new String(movie.getTitle()));   
@@ -354,12 +357,13 @@ public class MovieManager
         return search;
     }
 
-    public ArrayList  searchMinLengthMovie(int length)
-    { 
+    public ArrayList  searchMinLengthMovie(int length) { 
         ArrayList<String> search;
         search = new ArrayList<>();
+
         for (Movie movie : movies) {
             int runtime = movie.getRuntime();
+
             if(runtime >= length)
             { 
                 search.add(new String(movie.getTitle()));
@@ -368,20 +372,21 @@ public class MovieManager
         return search;
     }
 
-    public ArrayList  searchMovieReleasePeriod (int start, int end)
-    {   ArrayList<String> search;
+    public ArrayList  searchMovieReleasePeriod (int start, int end) {
+        ArrayList<String> search;
         search = new ArrayList<>();
+
         for (Movie movie : movies) {
             int release = movie.getYearOfRelease();
+
             if(release >= start &  release <= end){
                 search.add(new String(movie.getTitle()));
             }
         }
         return search;
     }
-    
-    public void printTotalMoviesWithRuntime()
-    {
+
+    public void printTotalMoviesWithRuntime() {
         int runtimeCount = 0;
 
         for (Movie movie : movies) {
@@ -392,8 +397,7 @@ public class MovieManager
         System.out.println("Total runtime: " + runtimeCount);
     }
 
-    public void printWatchedWithRuntime()
-    {
+    public void printWatchedWithRuntime() {
         int runtimeCount = 0;
         int movieCount = 0;
 
@@ -408,8 +412,7 @@ public class MovieManager
         System.out.println("Total runtime of unwatched movies: " + runtimeCount);
     }
 
-    public void printUnwatchedWithRuntime()
-    {
+    public void printUnwatchedWithRuntime() {
         int runtimeCount = 0;
         int movieCount = 0;
 
@@ -423,9 +426,8 @@ public class MovieManager
         System.out.println("Total number of unwatched movies: " + movieCount);
         System.out.println("Total runtime of unwatched movies: " + runtimeCount);
     }
-    
-    public void printWatchlistWithRuntime()
-    {
+
+    public void printWatchlistWithRuntime() {
         int runtimeCount = 0;
 
         for (Movie movie : watchlist) {
@@ -436,8 +438,7 @@ public class MovieManager
         System.out.println("Total runtime: " + runtimeCount);
     }
 
-    public void printMovieList()
-    {
+    public void printMovieList() {
         System.out.println("Here's a list of all movies currently in this collection:");
         for (Movie movie : movies)
         {
@@ -445,8 +446,7 @@ public class MovieManager
         }
     }
 
-    public void printDetails(String title)
-    {
+    public void printDetails(String title) {
         boolean searching = true;
 
         for (Movie movie : movies) {
@@ -460,20 +460,20 @@ public class MovieManager
                 searching = false;
             }
         }
-        
+
         if (searching) {
             System.out.println("No movie with that title found.");
         }
     }
 
-    public void printGridView()
-    {
+    public void printGridView() {
+
         // First, get all currently stored titles and trim them to size
 
         String[] fittedTitles = new String[movies.size()];
         String fittedTitle = "";
         int index = 0;
-        
+
         for (Movie movie : movies) {
             int len = movie.getTitleLength(movie.getTitle());
 
@@ -487,13 +487,10 @@ public class MovieManager
             index++;
         }
 
-        
         // Next, create an array for each row of threes to be printed
-
         int rest = fittedTitles.length % 3; // determine whether there is an array with less than 3 columns
         int chunks = fittedTitles.length / 3 + (rest > 0 ? 1 : 0); //adds an extra array if there is a rest
         String[][] arrays = new String[chunks][];
-        
 
         for (int i = 0; i < (rest > 0 ? chunks - 1 : chunks); i++) {
             arrays[i] = Arrays.copyOfRange(fittedTitles, i * 3, i * 6); // Exception with copyOfRange: array building doesn't work correctly. 
@@ -502,57 +499,51 @@ public class MovieManager
         if (rest > 0){
             arrays[chunks-1] = Arrays.copyOfRange(fittedTitles, (chunks-1) * 3, (chunks-1) *  (3 + rest)); // makes an extra array with less than three titles
         }
-        
-        // quick test if array was built correctly
-        // for (int i = 0; i < arrays.length; ++i) {
-            // for(int j = 0; j < arrays[i].length; ++j) {
-                // System.out.println(arrays[i][j]);
-            // }
-        // }
-        
+
+
         // Finally, print each row of threes accordingly
 
-        // int i = 0;
+        int i = 0;
 
-        // if (rest == 0) { // in case of even rows of threes
-            // for (i = 0; i < arrays.length; i++) {
-                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                // System.out.println("||                            ||                            ||                            ||");
-                // System.out.println("|| " + arrays[i][0] + " || " + arrays[i][1] + " || " + arrays[i][2] + " ||");
-                // System.out.println("||                            ||                            ||                            ||");
-                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-            // }
-        // } else if (rest == 2) { // in case of uneven rows with 2 left
-            // String[] array = arrays[i]; 
-            // while (i < (arrays.length-1)) {
-                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                // System.out.println("||                            ||                            ||                            ||");
-                // System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " ||");
-                // System.out.println("||                            ||                            ||                            ||");
-                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                // i++;
-            // }
-            // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-            // System.out.println("||                            ||                            ||");
-            // System.out.println("|| " + array[0] + " || " + array[1] + " ||");
-            // System.out.println("||                            ||                            ||");
-            // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-        // } else {
-            // String[] array = arrays[i]; 
-            // while (i < (arrays.length-1)) { // in case of uneven rows with one left
-                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                // System.out.println("||                            ||                            ||                            ||");
-                // System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " || ");
-                // System.out.println("||                            ||                            ||                            ||");
-                // System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-                // i++;
-            // }
-            // System.out.println("||||||||||||||||||||||||||||||||");
-            // System.out.println("||                            ||");
-            // System.out.println("|| " + array[0] + " ||");
-            // System.out.println("||                            ||");
-            // System.out.println("||||||||||||||||||||||||||||||||");
-        // }
+        if (rest == 0) { // in case of even rows of threes
+            for (i = 0; i < arrays.length; i++) {
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            System.out.println("||                            ||                            ||                            ||");
+            System.out.println("|| " + arrays[i][0] + " || " + arrays[i][1] + " || " + arrays[i][2] + " ||");
+            System.out.println("||                            ||                            ||                            ||");
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            }
+        } else if (rest == 2) { // in case of uneven rows with 2 left
+            String[] array = arrays[i]; 
+            while (i < (arrays.length-1)) {
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            System.out.println("||                            ||                            ||                            ||");
+            System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " ||");
+            System.out.println("||                            ||                            ||                            ||");
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            i++;
+            }
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            System.out.println("||                            ||                            ||");
+            System.out.println("|| " + array[0] + " || " + array[1] + " ||");
+            System.out.println("||                            ||                            ||");
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        } else {
+            String[] array = arrays[i]; 
+            while (i < (arrays.length-1)) { // in case of uneven rows with one left
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            System.out.println("||                            ||                            ||                            ||");
+            System.out.println("|| " + array[0] + " || " + array[1] + " || " + array[2] + " || ");
+            System.out.println("||                            ||                            ||                            ||");
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+            i++;
+            }
+            System.out.println("||||||||||||||||||||||||||||||||");
+            System.out.println("||                            ||");
+            System.out.println("|| " + array[0] + " ||");
+            System.out.println("||                            ||");
+            System.out.println("||||||||||||||||||||||||||||||||");
+        }
 
     }
 
