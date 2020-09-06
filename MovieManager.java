@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Random;
+import java.util.Iterator;
+
 /**
  * A tool to manage different movies. Contains movie names as well as metadata.
  * 
@@ -14,6 +17,7 @@ public class MovieManager
     private ArrayList<Movie> movies;
     private ArrayList<Movie> watchlist;
     private ArrayList<Set> actorsToCompare;
+    private String movie;
 
     /**
      * Constructor for creating a new List of Movies and a Watchlist
@@ -138,22 +142,6 @@ public class MovieManager
         }
     }
 
-    public void searchGenre(String genrename)
-    {
-        boolean searching = true;
-        for (Movie movie : movies) {
-            HashMap metadata = movie.getMetaData();
-            if (metadata.containsValue(genrename)) {
-                searching = false;
-                System.out.println(movie.getTitle());
-            }
-        }
-
-        if (searching) {
-            System.out.println("No movie with that genre found.");
-        }
-    }
-
     public void addToWatchlist(String title)
     {
         boolean found = false;
@@ -173,17 +161,17 @@ public class MovieManager
 
     public void removeFromWatchlist(String title)
     {
-        boolean searching = true;
-        for (Movie movie : watchlist) {
-            if (movie.getTitle().equals(title)) {
-                searching = false;
-                watchlist.remove(title);
+        Iterator<Movie> it = watchlist.iterator();
+        
+        if (watchlist.size() > 1) {
+            while (it.hasNext()) {
+                Movie movie = it.next();
+                watchlist.remove(movie);
             }
+        } else {
+            watchlist.clear();
         }
-
-        if (searching) {
-            System.out.println("No title found!");
-        }
+    
     }
     
     // Set to true if you want to set every movie to already seen, set to false if you want to set them to unseen.
@@ -192,6 +180,7 @@ public class MovieManager
         if (seen) {
             for (Movie movie : movies) {
                 movie.setAlreadySeenT();
+                watchlist.remove(movie.getTitle());
             }
         } else {
             for (Movie movie : movies) {
@@ -228,7 +217,169 @@ public class MovieManager
         }
         System.out.println("The actor starring in most movies is: " + mostCommon + ".");
     }
+   
 
+    public double totalRuntime () {
+        double total = 0.;
+        for (Movie movie : movies) {
+            total = total + movie.getRuntime();
+        }
+        return total;
+    }
+    
+    
+    private int numberOfMovies () {
+        int total = 0;
+        for (Movie movie : movies) {
+            total++ ;
+        }
+        return total;
+    }
+
+    
+
+    public double averageRuntime () {
+        double total = 0.;
+        for (Movie movie : movies) {
+            total = total + movie.getRuntime();
+        }
+        total = total / this.numberOfMovies();
+        return total;
+    }
+
+    
+    public String movieRecommendations() {
+        int i = 0;
+        String total = "";
+        if (watchlist.size()>2) { //Damit keine Endlosschleife erzeugt wird.
+            while (i<3) {
+                Movie movie = watchlist.get(new Random().nextInt(watchlist.size()));
+                if (false==total.contains(movie.getTitle())) {
+                    total = total +", "+ movie.getTitle(); 
+                    i++;
+                }
+            }
+        } else {
+            System.out.println ("There are not enough movies in your watchlist");
+        }
+        
+        return total;
+    }
+    
+    public void seeMovie (String title) {
+        for (Movie movie : movies) {
+            if (movie.getTitle().equals(title)) {
+                movie.setAlreadySeenT();                
+            }  else {
+                System.out.println("No title found!");
+            }
+        }
+        for (Movie movie : watchlist) {
+            if (movie.equals(title)) {
+                watchlist.remove(title);
+            }
+        }
+    }
+
+    
+    public ArrayList searchCastMember(String actor)
+    {
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        for (Movie movie : movies) {
+            HashMap cast = movie.getCast();
+            if (cast.containsKey(actor)) {
+
+                search.add(new String(movie.getTitle()));
+            }
+        }
+        return search;
+    }
+
+    public ArrayList searchGenre(String genrename)
+    {
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        
+        for (Movie movie : movies) {
+            HashMap metadata = movie.getMetaData();
+            if (metadata.containsKey("Genre")){
+                if (metadata.containsValue(genrename)) {
+                    
+                    search.add(new String(movie.getTitle()));
+                }
+            }
+        }
+
+       return search;
+    }
+    
+    public ArrayList searchMovie(String title)
+    {
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        for (Movie movie : movies) {
+            if (movie.getTitle().contains(title)) {
+
+                search.add(new String(movie.getTitle()));
+            }
+        }
+        return search;
+    }
+    
+        public ArrayList searchUnseenMovies()
+    {
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        for (Movie movie : movies) {
+            boolean seen = movie.getAlreadySeen();
+            if (seen == false) {
+
+                search.add(new String(movie.getTitle()));
+            }
+        }
+        return search;
+    }
+
+    public ArrayList searchWatchlistMovie(String title)
+    {
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        for (Movie movie : watchlist) {
+            if (movie.getTitle().contains(title)){
+                search.add(new String(movie.getTitle()));   
+            }
+
+        }
+        return search;
+    }
+
+    public ArrayList  searchMinLengthMovie(int length)
+    { 
+        ArrayList<String> search;
+        search = new ArrayList<>();
+        for (Movie movie : movies) {
+            int runtime = movie.getRuntime();
+            if(runtime >= length)
+            { 
+                search.add(new String(movie.getTitle()));
+            }
+        }
+        return search;
+    }
+
+    public ArrayList  searchMovieReleasePeriod (int start, int end)
+    {   ArrayList<String> search;
+        search = new ArrayList<>();
+        for (Movie movie : movies) {
+            int release = movie.getReleaseYear();
+            if(release >= start &  release <= end){
+                search.add(new String(movie.getTitle()));
+            }
+        }
+        return search;
+    }
+    
     public void printTotalMoviesWithRuntime()
     {
         int runtimeCount = 0;
@@ -335,26 +486,28 @@ public class MovieManager
             index++;
         }
 
+        
         // Next, create an array for each row of threes to be printed
 
         int rest = fittedTitles.length % 3; // determine whether there is an array with less than 3 columns
         int chunks = fittedTitles.length / 3 + (rest > 0 ? 1 : 0); //adds an extra array if there is a rest
         String[][] arrays = new String[chunks][];
+        
 
-        for (int i = 0; i < (rest > 0 ? 2 : chunks); i++) {
+        for (int i = 0; i < (rest > 0 ? chunks - 1 : chunks); i++) {
             arrays[i] = Arrays.copyOfRange(fittedTitles, i * 3, i * 6); // Exception with copyOfRange: array building doesn't work correctly. 
         }
 
         if (rest > 0){
-            arrays[chunks - 1] = Arrays.copyOfRange(fittedTitles, (chunks - 1) * 3, (chunks - 1) *  3 + rest); // makes an extra array with less than three titles
+            arrays[chunks-1] = Arrays.copyOfRange(fittedTitles, (chunks-1) * 3, (chunks-1) *  (3 + rest)); // makes an extra array with less than three titles
         }
         
         // quick test if array was built correctly
-        for (int i = 0; i < arrays.length; ++i) {
-            for(int j = 0; j < arrays[i].length; ++j) {
-                System.out.println(arrays[i][j]);
-            }
-        }
+        // for (int i = 0; i < arrays.length; ++i) {
+            // for(int j = 0; j < arrays[i].length; ++j) {
+                // System.out.println(arrays[i][j]);
+            // }
+        // }
         
         // Finally, print each row of threes accordingly
 
